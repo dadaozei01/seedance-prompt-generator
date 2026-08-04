@@ -1,5 +1,9 @@
 # Seedance Prompt Generator for Codex
 
+<p align="center">
+  <img src="plugins/seedance-prompt-generator/assets/logo.png" alt="Seedance Prompt Generator" width="320">
+</p>
+
 一个可在 Windows 和 macOS 使用的 Codex 插件，把简短创意扩展为可直接复制到即梦 Seedance 2.0/2.5 的完整视频提示词。
 
 ## 功能
@@ -63,6 +67,10 @@ codex plugin add seedance-prompt-generator@seedance-community
 4. 参数建议
 5. 一致性检查
 6. 下次可复用短句
+
+## 版本
+
+- `1.0.1`：新增插件品牌图标，并优化 Codex 插件列表与详情页展示。
 
 ## 更新
 
