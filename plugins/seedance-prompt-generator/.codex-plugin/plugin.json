@@ -1,6 +1,6 @@
 {
   "name": "seedance-prompt-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate complete, production-ready Seedance 2.0 and 2.5 video prompts from short creative briefs.",
   "author": {
     "name": "dadaozei01",
@@ -27,6 +27,9 @@
       "Write"
     ],
     "websiteURL": "https://github.com/dadaozei01/seedance-prompt-generator",
+    "brandColor": "#5146E5",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png",
     "defaultPrompt": [
       "生成一条15秒的Seedance视频提示词。",
       "把这个创意整理成Seedance 2.5完整提示词。",
