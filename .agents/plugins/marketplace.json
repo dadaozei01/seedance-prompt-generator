@@ -1,0 +1,20 @@
+{
+  "name": "seedance-community",
+  "interface": {
+    "displayName": "Seedance Community"
+  },
+  "plugins": [
+    {
+      "name": "seedance-prompt-generator",
+      "source": {
+        "source": "local",
+        "path": "./plugins/seedance-prompt-generator"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Creative"
+    }
+  ]
+}

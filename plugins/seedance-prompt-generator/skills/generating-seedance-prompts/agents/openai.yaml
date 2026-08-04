@@ -1,0 +1,6 @@
+interface:
+  display_name: "Seedance 视频提示词"
+  short_description: "生成完整稳定且可直接复制的即梦 Seedance 视频提示词"
+  default_prompt: "使用 $generating-seedance-prompts 生成一份可直接复制的 Seedance 视频提示词。"
+policy:
+  allow_implicit_invocation: true

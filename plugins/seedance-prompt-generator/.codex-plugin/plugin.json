@@ -1,0 +1,36 @@
+{
+  "name": "seedance-prompt-generator",
+  "version": "1.0.0",
+  "description": "Generate complete, production-ready Seedance 2.0 and 2.5 video prompts from short creative briefs.",
+  "author": {
+    "name": "dadaozei01",
+    "url": "https://github.com/dadaozei01"
+  },
+  "homepage": "https://github.com/dadaozei01/seedance-prompt-generator",
+  "repository": "https://github.com/dadaozei01/seedance-prompt-generator",
+  "license": "MIT",
+  "keywords": [
+    "seedance",
+    "dreamina",
+    "jimeng",
+    "video-prompt",
+    "prompt-generator"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Seedance Prompt Generator",
+    "shortDescription": "Generate structured Seedance video prompts.",
+    "longDescription": "Turns short creative ideas into complete Seedance 2.0 or 2.5 prompts with material binding, timelines, camera direction, audio, consistency checks, and negative constraints.",
+    "developerName": "dadaozei01",
+    "category": "Creative",
+    "capabilities": [
+      "Write"
+    ],
+    "websiteURL": "https://github.com/dadaozei01/seedance-prompt-generator",
+    "defaultPrompt": [
+      "生成一条15秒的Seedance视频提示词。",
+      "把这个创意整理成Seedance 2.5完整提示词。",
+      "优化这份图生视频提示词并防止角色跑偏。"
+    ]
+  }
+}
