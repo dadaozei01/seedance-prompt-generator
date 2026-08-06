@@ -1,7 +1,7 @@
 {
   "name": "seedance-prompt-generator",
-  "version": "1.0.1",
-  "description": "Generate complete, production-ready Seedance 2.0 and 2.5 video prompts from short creative briefs.",
+  "version": "1.1.0",
+  "description": "Generate production-ready prompts for Seedance video, Nano Banana, and ChatGPT Images 2.0.",
   "author": {
     "name": "dadaozei01",
     "url": "https://github.com/dadaozei01"
@@ -13,14 +13,15 @@
     "seedance",
     "dreamina",
     "jimeng",
-    "video-prompt",
+    "nano-banana",
+    "chatgpt-images",
     "prompt-generator"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Seedance Prompt Generator",
-    "shortDescription": "Generate structured Seedance video prompts.",
-    "longDescription": "Turns short creative ideas into complete Seedance 2.0 or 2.5 prompts with material binding, timelines, camera direction, audio, consistency checks, and negative constraints.",
+    "shortDescription": "\u751f\u6210 Seedance\u3001Nano Banana \u548c ChatGPT Images \u63d0\u793a\u8bcd\u3002",
+    "longDescription": "\u5c06\u7b80\u77ed\u521b\u610f\u6574\u7406\u4e3a Seedance 2.0/2.5 \u89c6\u9891\u63d0\u793a\u8bcd\u3001Nano Banana \u56fe\u7247\u63d0\u793a\u8bcd\u6216 ChatGPT Images 2.0 \u56fe\u7247\u63d0\u793a\u8bcd\u3002",
     "developerName": "dadaozei01",
     "category": "Creative",
     "capabilities": [
@@ -31,9 +32,9 @@
     "composerIcon": "./assets/icon.png",
     "logo": "./assets/logo.png",
     "defaultPrompt": [
-      "生成一条15秒的Seedance视频提示词。",
-      "把这个创意整理成Seedance 2.5完整提示词。",
-      "优化这份图生视频提示词并防止角色跑偏。"
+      "\u751f\u6210\u4e00\u6761 5 \u79d2\u7684 Seedance \u89c6\u9891\u63d0\u793a\u8bcd\u3002",
+      "\u4e3a Nano Banana \u751f\u6210\u4e00\u4efd\u5546\u54c1\u6d77\u62a5\u63d0\u793a\u8bcd\u3002",
+      "\u4e3a ChatGPT Images 2.0 \u751f\u6210\u4e00\u4efd\u56fe\u7247\u7f16\u8f91\u63d0\u793a\u8bcd\u3002"
     ]
   }
 }
