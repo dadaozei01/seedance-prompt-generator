@@ -1,0 +1,6 @@
+interface:
+  display_name: "Nano Banana 提示词"
+  short_description: "生成适配 Gemini 的 Nano Banana 图像提示词"
+  default_prompt: "使用 $generating-nano-banana-prompts 生成一份可直接复制的 Nano Banana 图片提示词。"
+policy:
+  allow_implicit_invocation: true
