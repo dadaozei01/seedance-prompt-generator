@@ -1,0 +1,4 @@
+interface:
+  display_name: "ChatGPT Images Prompts"
+  short_description: "为 ChatGPT Images 2.0 编写稳定生图与修图提示词。"
+  default_prompt: "Use $generating-chatgpt-image-prompts to create a concise ChatGPT Images 2.0 prompt."
