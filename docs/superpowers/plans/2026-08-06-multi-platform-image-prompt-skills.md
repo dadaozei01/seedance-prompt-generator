@@ -324,4 +324,3 @@ git commit -m "docs: document multi-platform prompt routing"
 Run: `git push origin main`
 
 Expected: GitHub accepts all commits and `origin/main` points at the final local commit.
-
