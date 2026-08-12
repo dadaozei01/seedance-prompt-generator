@@ -99,7 +99,16 @@ function parseAgentYaml(text, dir) {
     const [, key, raw] = field;
     const allowed = section === "interface" ? allowedInterface : allowedPolicy;
     if (!allowed.has(key)) fail(`${dir} openai.yaml invalid ${section} field ${key}`);
-    result[section][key] = raw.replace(/^(?:"([\s\S]*)"|'([\s\S]*)')$/, "$1$2");
+    const quoted = raw.match(/^(?:"([^"\r\n]*)"|'([^'\r\n]*)')$/);
+    if (section === "interface" && !quoted) {
+      fail(`${dir} openai.yaml interface.${key} must be a closed quoted scalar`);
+      continue;
+    }
+    if (section === "policy" && !/^(?:true|false)$/.test(raw)) {
+      fail(`${dir} openai.yaml policy.${key} must be boolean`);
+      continue;
+    }
+    result[section][key] = quoted ? (quoted[1] ?? quoted[2]) : raw;
   }
   return result;
 }
