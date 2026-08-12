@@ -1,7 +1,7 @@
 {
   "name": "seedance-prompt-generator",
-  "version": "1.1.0",
-  "description": "Generate production-ready prompts for Seedance video, Nano Banana, and ChatGPT Images 2.0.",
+  "version": "1.2.0",
+  "description": "Generate model-specific prompts for image, video, editing, references, and native audiovisual creation.",
   "author": {
     "name": "dadaozei01",
     "url": "https://github.com/dadaozei01"
@@ -15,13 +15,18 @@
     "jimeng",
     "nano-banana",
     "chatgpt-images",
+    "grok-imagine",
+    "minimax-h3",
+    "image-prompt",
+    "video-prompt",
+    "multimodal",
     "prompt-generator"
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Seedance Prompt Generator",
-    "shortDescription": "\u751f\u6210 Seedance\u3001Nano Banana \u548c ChatGPT Images \u63d0\u793a\u8bcd\u3002",
-    "longDescription": "\u5c06\u7b80\u77ed\u521b\u610f\u6574\u7406\u4e3a Seedance 2.0/2.5 \u89c6\u9891\u63d0\u793a\u8bcd\u3001Nano Banana \u56fe\u7247\u63d0\u793a\u8bcd\u6216 ChatGPT Images 2.0 \u56fe\u7247\u63d0\u793a\u8bcd\u3002",
+    "displayName": "MediaPrompt Forge",
+    "shortDescription": "\u4e3a\u56fe\u7247\u3001\u89c6\u9891\u4e0e\u539f\u751f\u97f3\u753b\u6a21\u578b\u751f\u6210\u4e13\u5c5e\u63d0\u793a\u8bcd\u3002",
+    "longDescription": "\u5c06\u521b\u610f\u6574\u7406\u4e3a Seedance\u3001Nano Banana\u3001ChatGPT Images\u3001Grok Imagine \u4e0e MiniMax H3 \u7684\u6a21\u578b\u4e13\u5c5e\u63d0\u793a\u8bcd\u3002",
     "developerName": "dadaozei01",
     "category": "Creative",
     "capabilities": [
@@ -32,9 +37,9 @@
     "composerIcon": "./assets/icon.png",
     "logo": "./assets/logo.png",
     "defaultPrompt": [
-      "\u751f\u6210\u4e00\u6761 5 \u79d2\u7684 Seedance \u89c6\u9891\u63d0\u793a\u8bcd\u3002",
-      "\u4e3a Nano Banana \u751f\u6210\u4e00\u4efd\u5546\u54c1\u6d77\u62a5\u63d0\u793a\u8bcd\u3002",
-      "\u4e3a ChatGPT Images 2.0 \u751f\u6210\u4e00\u4efd\u56fe\u7247\u7f16\u8f91\u63d0\u793a\u8bcd\u3002"
+      "\u4e3a Grok Imagine Image 2.0 \u751f\u6210\u4e00\u4efd\u7cbe\u51c6\u56fe\u7247\u7f16\u8f91\u63d0\u793a\u8bcd\u3002",
+      "\u4e3a Grok Imagine Video 1.5 \u751f\u6210\u4e00\u4efd\u8fde\u7eed\u91cd\u578b\u52a8\u4f5c\u63d0\u793a\u8bcd\u3002",
+      "\u4e3a MiniMax H3 \u751f\u6210\u4e00\u4efd\u5305\u542b\u73af\u5883\u58f0\u4e0e\u97f3\u4e50\u7684\u539f\u751f\u97f3\u753b\u63d0\u793a\u8bcd\u3002"
     ]
   }
 }
