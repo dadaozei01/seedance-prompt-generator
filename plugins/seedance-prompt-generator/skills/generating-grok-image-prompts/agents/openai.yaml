@@ -2,4 +2,5 @@ interface:
   display_name: "Grok Image 提示词"
   short_description: "生成自然语言生图、精确编辑与多参考图提示词"
   default_prompt: "使用 $generating-grok-image-prompts 为我的需求生成 Grok Image 提示词。"
-  implicit_invocation: true
+policy:
+  allow_implicit_invocation: true

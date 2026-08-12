@@ -73,6 +73,37 @@ function requireContains(text, values, label) {
   }
 }
 
+function isPlainObject(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function parseAgentYaml(text, dir) {
+  const lines = text.split(/\r?\n/).filter((line) => line.trim() && !line.trimStart().startsWith("#"));
+  const allowedTop = new Set(["interface", "policy"]);
+  const allowedInterface = new Set(["display_name", "short_description", "default_prompt"]);
+  const allowedPolicy = new Set(["allow_implicit_invocation"]);
+  const result = { interface: {}, policy: {} };
+  let section = "";
+  for (const line of lines) {
+    const top = line.match(/^([a-z_]+):\s*$/);
+    if (top) {
+      section = top[1];
+      if (!allowedTop.has(section)) fail(`${dir} openai.yaml unknown section ${section}`);
+      continue;
+    }
+    const field = line.match(/^  ([a-z_]+):\s*(.+)$/);
+    if (!field || !allowedTop.has(section)) {
+      fail(`${dir} openai.yaml invalid structure`);
+      continue;
+    }
+    const [, key, raw] = field;
+    const allowed = section === "interface" ? allowedInterface : allowedPolicy;
+    if (!allowed.has(key)) fail(`${dir} openai.yaml invalid ${section} field ${key}`);
+    result[section][key] = raw.replace(/^(?:"([\s\S]*)"|'([\s\S]*)')$/, "$1$2");
+  }
+  return result;
+}
+
 function parseFrontmatter(text, dir) {
   const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
   if (!match) {
@@ -99,10 +130,24 @@ function parseFrontmatter(text, dir) {
 const manifestText = readText(manifestPath);
 const marketplaceText = readText(marketplacePath);
 let manifest = {};
+let marketplace = {};
 try {
   manifest = JSON.parse(manifestText);
 } catch {
   fail("manifest must be valid JSON");
+}
+try {
+  marketplace = JSON.parse(marketplaceText);
+} catch {
+  fail("marketplace must be valid JSON");
+}
+if (!isPlainObject(manifest)) {
+  fail("manifest must be a JSON object");
+  manifest = {};
+}
+if (!isPlainObject(marketplace)) {
+  fail("marketplace must be a JSON object");
+  marketplace = {};
 }
 
 if (manifest.name !== "seedance-prompt-generator") fail("manifest name must match plugin directory");
@@ -128,7 +173,14 @@ else {
   if (manifest.interface.displayName !== "MediaPrompt Forge") fail("manifest display name must be MediaPrompt Forge");
 }
 requireContains(manifestText, ["Grok Imagine Image 2.0", "Grok Imagine Video 1.5", "MiniMax H3"], "manifest");
-requireContains(marketplaceText, ["MediaPrompt Forge Community", "seedance-prompt-generator"], "marketplace");
+if (marketplace.interface?.displayName !== "MediaPrompt Forge Community") fail("marketplace display name must be MediaPrompt Forge Community");
+if (!Array.isArray(marketplace.plugins) || marketplace.plugins.length !== 1) fail("marketplace must contain exactly one plugin");
+else {
+  const entry = marketplace.plugins[0];
+  if (entry?.name !== "seedance-prompt-generator") fail("marketplace plugin name must preserve the internal ID");
+  if (entry?.source?.source !== "local" || entry?.source?.path !== "./plugins/seedance-prompt-generator") fail("marketplace local source must target the plugin directory");
+  if (entry?.policy?.installation !== "AVAILABLE" || entry?.policy?.authentication !== "ON_INSTALL") fail("marketplace policy must preserve installation defaults");
+}
 
 const skillDirs = fs.existsSync(skillsRoot)
   ? fs.readdirSync(skillsRoot, { withFileTypes: true }).filter((entry) => entry.isDirectory()).map((entry) => entry.name)
@@ -179,14 +231,26 @@ for (const dir of skillDirs) {
   if (expectedSkills.has(dir)) {
     requireContains(body, reuseTriggers, `${dir} reuse triggers`);
     requireContains(body, complexityTerms, `${dir} quota controls`);
+    if (!body.includes("普通任务不输出") && !body.includes("其它情况不追加")) fail(`${dir} must explicitly exclude reusable output by default`);
+    if (/^\s*\d+\.\s*`?【下次可复用短句】/m.test(body)) fail(`${dir} must not list reusable output as a default numbered section`);
   }
 
   const agentFile = path.join(skillRoot, "agents", "openai.yaml");
   if (!fs.existsSync(agentFile)) fail(`missing agents/openai.yaml: ${dir}`);
   else {
     const agentBody = readText(agentFile);
-    requireContains(agentBody, ["display_name:", "short_description:", "default_prompt:", `$${dir}`], `${dir} openai.yaml`);
+    const agent = parseAgentYaml(agentBody, dir);
+    for (const key of ["display_name", "short_description", "default_prompt"]) {
+      if (typeof agent.interface[key] !== "string" || !agent.interface[key].trim()) fail(`${dir} openai.yaml missing interface.${key}`);
+    }
+    if (!agent.interface.default_prompt?.includes(`$${dir}`)) fail(`${dir} openai.yaml default_prompt must invoke $${dir}`);
+    if (agent.policy.allow_implicit_invocation !== "true") fail(`${dir} openai.yaml must allow implicit invocation`);
   }
+}
+
+for (const dir of ["generating-grok-image-prompts", "generating-grok-video-prompts", "generating-minimax-h3-prompts"]) {
+  const examples = readText(path.join(skillsRoot, dir, "references", "examples.md"));
+  if ((examples.match(/【提示词成品】/g) ?? []).length < 2) fail(`${dir} examples must contain at least two finished prompts`);
 }
 
 for (const file of fs.readdirSync(pluginRoot, { recursive: true })) {
