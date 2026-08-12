@@ -329,42 +329,28 @@ git commit -m "feat: make reusable prompt output conditional"
 
 ---
 
-### Task 6: Brand assets and six-skill documentation polish
+### Task 6: Preserve brand assets and polish six-skill documentation
 
 **Files:**
-- Modify: `plugins/seedance-prompt-generator/assets/icon.png`
-- Modify: `plugins/seedance-prompt-generator/assets/logo.png`
 - Modify: `README.md`
 
 **Interfaces:**
-- Consumes: approved brand name, existing purple brand color `#5146E5`, current icon/logo dimensions, and six-skill capability list.
-- Produces: recognizable MediaPrompt Forge assets and final user-facing documentation without changing manifest asset paths.
+- Consumes: approved brand name, the user override to preserve current icon/logo files, and the six-skill capability list.
+- Produces: final user-facing documentation while keeping manifest asset paths and both binary assets unchanged.
 
-- [ ] **Step 1: Inspect existing images and record dimensions**
+- [ ] **Step 1: Verify the original images remain unchanged**
 
-Use local image inspection for both assets. Preserve the icon and logo canvas sizes so existing plugin UI rendering remains stable.
+Compare both worktree assets with the source checkout using SHA-256. Expected: matching hashes for `icon.png` and `logo.png`.
 
-- [ ] **Step 2: Create updated assets**
-
-Edit the existing assets with the image generation workflow using this art direction:
-
-```text
-Keep the established violet brand family (#5146E5). Replace Seedance-only symbolism with a clean multimodal forge/prism mark that suggests image frames, video motion, and an audio waveform. The icon must remain legible at small size with no tiny text. The wide logo must display “MediaPrompt Forge” clearly and use the Chinese subtitle “多模态提示词工坊” only if it remains fully legible. Preserve transparent background and original canvas dimensions.
-```
-
-- [ ] **Step 3: Verify assets visually and structurally**
-
-Inspect both outputs at original resolution. Confirm transparent background, correct spelling, no clipped glyphs, unchanged dimensions, and readable small-size icon. Re-edit once if any check fails.
-
-- [ ] **Step 4: Reconcile README with the final assets and six skills**
+- [ ] **Step 2: Reconcile README with the six skills**
 
 Ensure the README uses `MediaPrompt Forge`, lists exactly six skills, documents conditional reusable output, explains on-demand references/low quota behavior, and retains installation/update/privacy instructions.
 
-- [ ] **Step 5: Commit brand assets**
+- [ ] **Step 3: Commit documentation polish**
 
 ```powershell
-git add plugins/seedance-prompt-generator/assets/icon.png plugins/seedance-prompt-generator/assets/logo.png README.md
-git commit -m "design: update MediaPrompt Forge branding"
+git add README.md
+git commit -m "docs: document MediaPrompt Forge workflows"
 ```
 
 ---

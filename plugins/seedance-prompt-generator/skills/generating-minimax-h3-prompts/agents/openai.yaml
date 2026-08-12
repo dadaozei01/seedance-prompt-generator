@@ -1,0 +1,6 @@
+interface:
+  display_name: "MiniMax H3 提示词"
+  short_description: "生成 Shot、镜头、环境声与音乐一体化提示词"
+  default_prompt: "使用 $generating-minimax-h3-prompts 生成一份可直接使用的 MiniMax H3 原生音画提示词。"
+policy:
+  allow_implicit_invocation: true

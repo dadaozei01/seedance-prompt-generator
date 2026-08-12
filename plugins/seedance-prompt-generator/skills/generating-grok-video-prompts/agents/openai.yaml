@@ -1,0 +1,6 @@
+interface:
+  display_name: "Grok Video 提示词"
+  short_description: "生成连续动作、物理反馈与电影镜头视频提示词"
+  default_prompt: "使用 $generating-grok-video-prompts 生成一份可直接复制的 Grok Video 提示词。"
+policy:
+  allow_implicit_invocation: true
