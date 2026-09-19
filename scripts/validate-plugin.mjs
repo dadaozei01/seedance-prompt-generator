@@ -15,35 +15,6 @@ const expectedSkills = new Set([
   "generating-grok-video-prompts",
   "generating-minimax-h3-prompts",
 ]);
-const imageHeadings = ["【提示词成品】", "【负面约束】", "【参考图绑定】", "【参数建议】", "【风格锚点】", "【一致性检查】"];
-const videoHeadings = ["【提示词成品】", "【负面约束】", "【素材绑定】", "【参数建议】", "【一致性检查】"];
-const reuseTriggers = ["保存成模板", "给我复用短句", "以后继续用这个风格", "做成可复用版本", "下次沿用这套结构"];
-const complexityTerms = ["compact", "standard", "detailed", "只给提示词", "动态", "当前任务"];
-const seedanceTerms = ["\u5373\u68a6", "\u751f\u6210\u89c6\u9891\u63d0\u793a\u8bcd", "\u5199\u89c6\u9891\u63d0\u793a\u8bcd", "\u6309\u8fd9\u79cd\u98ce\u683c\u751f\u6210\u89c6\u9891", "\u56fe\u751f\u89c6\u9891", "\u89c6\u9891\u5ef6\u957f", "\u0053\u0065\u0065\u0064\u0061\u006e\u0063\u0065\u0020\u0032\u002e\u0030\u002f\u0032\u002e\u0035", "\u0053\u0065\u0065\u0064\u0061\u006e\u0063\u0065\u0020\u0032\u002e\u0035", "\u0040\u56fe\u7247\u0031", "\u0040\u89c6\u9891\u0031", "\u0040\u97f3\u9891\u0031", "\u0033\u0030\u2013\u0031\u0038\u0030\u0020\u79d2"];
-const imageSkillRequirements = {
-  "generating-nano-banana-prompts": {
-    terms: ["Nano Banana", "Nano Banana Pro", "Gemini 生图", "Gemini 图片提示词", "【Nano Banana 版】"],
-    references: ["references/nano-banana-guide.md", "references/templates.md"],
-  },
-  "generating-chatgpt-image-prompts": {
-    terms: ["ChatGPT Images 2.0", "ChatGPT Image 2", "Images 2.0", "Image 2", "ChatGPT 生图", "OpenAI 图片提示词", "只修改", "ChatGPT Images 2.0 版"],
-    references: ["references/chatgpt-images-guide.md", "references/templates.md"],
-  },
-  "generating-grok-image-prompts": {
-    terms: ["Grok Imagine Image 2.0", "text-to-image", "image-edit", "multi-reference", "Only modify", "Keep everything else unchanged", "Do not change"],
-    references: ["references/grok-image-guide.md", "references/templates.md", "references/examples.md"],
-  },
-};
-const videoSkillRequirements = {
-  "generating-grok-video-prompts": {
-    terms: ["Grok Imagine Video 1.5", "text-to-video", "image-to-video", "reference-to-video", "weight", "inertia", "Camera", "environmental response", "不是首帧", "Seedance"],
-    references: ["references/grok-video-guide.md", "references/templates.md", "references/examples.md"],
-  },
-  "generating-minimax-h3-prompts": {
-    terms: ["MiniMax H3", "T2VA", "I2VA", "FL2VA", "L2VA", "integrated_multimodal_description", "[Shot 1]", "overall_soundscape", "non_diegetic_music", "N/A", "00:00", "用户语言"],
-    references: ["references/minimax-h3-guide.md", "references/templates.md", "references/examples.md"],
-  },
-};
 const knownMojibake = /(?:锟|鐢熸垚|鎻愮ず|瑙嗛|Ã.|Â.|â..)/;
 const failures = [];
 const decoder = new TextDecoder("utf-8", { fatal: true });
@@ -161,7 +132,6 @@ if (!isPlainObject(marketplace)) {
 
 if (manifest.name !== "seedance-prompt-generator") fail("manifest name must match plugin directory");
 if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/.test(manifest.version ?? "")) fail("manifest version must be strict semver");
-if (manifest.version !== "1.2.0") fail("manifest version must be 1.2.0");
 for (const key of ["description", "homepage", "repository", "license", "skills"]) requiredString(manifest, key, `manifest ${key}`);
 for (const key of ["homepage", "repository"]) if (typeof manifest[key] === "string" && !/^https:\/\//.test(manifest[key])) fail(`manifest ${key} must use HTTPS`);
 if (manifest.skills !== "./skills/") fail("manifest skills path must be ./skills/");
@@ -218,32 +188,6 @@ for (const dir of skillDirs) {
     if (!fs.existsSync(path.join(skillRoot, link[1]))) fail(`broken reference in ${dir}: ${link[1]}`);
   }
 
-  if (dir === "generating-seedance-prompts") {
-    requireContains(body, seedanceTerms, dir);
-    requireContains(body, videoHeadings, dir);
-  } else if (Object.hasOwn(imageSkillRequirements, dir)) {
-    requireContains(body, imageHeadings, dir);
-    const requirements = imageSkillRequirements[dir];
-    requireContains(body, requirements.terms, dir);
-    for (const reference of requirements.references) {
-      if (!body.includes(`](${reference})`)) fail(`${dir} must link ${reference}`);
-    }
-  } else if (Object.hasOwn(videoSkillRequirements, dir)) {
-    requireContains(body, videoHeadings, dir);
-    const requirements = videoSkillRequirements[dir];
-    requireContains(body, requirements.terms, dir);
-    for (const reference of requirements.references) {
-      if (!body.includes(`](${reference})`)) fail(`${dir} must link ${reference}`);
-    }
-  }
-
-  if (expectedSkills.has(dir)) {
-    requireContains(body, reuseTriggers, `${dir} reuse triggers`);
-    requireContains(body, complexityTerms, `${dir} quota controls`);
-    if (!body.includes("普通任务不输出") && !body.includes("其它情况不追加")) fail(`${dir} must explicitly exclude reusable output by default`);
-    if (/^\s*\d+\.\s*`?【下次可复用短句】/m.test(body)) fail(`${dir} must not list reusable output as a default numbered section`);
-  }
-
   const agentFile = path.join(skillRoot, "agents", "openai.yaml");
   if (!fs.existsSync(agentFile)) fail(`missing agents/openai.yaml: ${dir}`);
   else {
@@ -257,15 +201,20 @@ for (const dir of skillDirs) {
   }
 }
 
-for (const dir of ["generating-grok-image-prompts", "generating-grok-video-prompts", "generating-minimax-h3-prompts"]) {
-  const examples = readText(path.join(skillsRoot, dir, "references", "examples.md"));
-  if ((examples.match(/【提示词成品】/g) ?? []).length < 2) fail(`${dir} examples must contain at least two finished prompts`);
-}
-
 for (const file of fs.readdirSync(pluginRoot, { recursive: true })) {
   const absolute = path.join(pluginRoot, file);
   if (!fs.statSync(absolute).isFile() || !/\.(md|json|yaml)$/.test(file)) continue;
-  readText(absolute);
+  const text = readText(absolute);
+  if (file.endsWith(".md")) {
+    for (const match of text.matchAll(/\]\(([^)]+)\)/g)) {
+      const target = match[1].split("#")[0];
+      if (!target || /^[a-z][a-z0-9+.-]*:/i.test(target)) continue;
+      const resolved = path.resolve(path.dirname(absolute), target);
+      if (!resolved.startsWith(pluginRoot + path.sep) || !fs.existsSync(resolved)) {
+        fail(`broken or external local reference: ${file} -> ${target}`);
+      }
+    }
+  }
 }
 
 const readme = readText(path.join(root, "README.md"));
@@ -289,4 +238,4 @@ if (failures.length) {
   console.error([...new Set(failures)].join("\n"));
   process.exit(1);
 }
-console.log("Plugin validation passed.");
+console.log("Plugin structure validation passed (6 skills, metadata, UTF-8 and local references). Creative quality requires behavioral review.");

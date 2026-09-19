@@ -1,81 +1,25 @@
-# MiniMax H3 模板
+# H3 可选表达示例
 
-## 5 秒单镜头
+自编示例。先决定普通创意描述还是官方结构化重写；不要为了套格式改变创意。完整模式语法见[指南及官方来源](minimax-h3-guide.md)。
+
+## 自然语言创意
+
+十秒单镜头，人物从屋檐阴影中走进雨里，雨滴逐渐打湿肩头，镜头平稳跟随两步后停下；只听雨声与脚步声，无对白、无音乐。
+
+## 官方基础格式示例（T2VA，无对白音乐）
 
 ```text
-integrated_multimodal_description: T2VA；[主体] 在[场景]完成[一个核心动作]。
-[Shot 1]
-action: [动作、表情、光线与结果]
-Camera: [景别/视角] [与动作同步的镜头运动]
-dialogue: N/A
-overall_soundscape: [画内环境和动作声]
+integrated_multimodal_description: [Shot 1] A ten-second single shot follows a figure leaving the shelter of an awning and stepping into the rain. The camera tracks for two steps, then holds as raindrops darken the shoulders of the coat. No dialogue.
+
+overall_soundscape: Rain strikes the pavement; footsteps splash through shallow water.
+
 non_diegetic_music: N/A
 ```
 
-## 10 秒双镜头
+## L2VA 的创意方向
 
-```text
-integrated_multimodal_description: T2VA；[主体、场景、连续目标]。
-[Shot 1]
-action: [起始动作]
-Camera: [对应镜头]
-dialogue: [原文或 N/A]
-[Shot 2 | 00:05-00:10]
-action: [延续并完成的动作]
-Camera: [对应镜头]
-dialogue: [原文或 N/A]
-overall_soundscape: [画内声]
-non_diegetic_music: [BGM 或 N/A]
-```
+以给定图片作为结尾：从杯子尚未放到桌面的状态开始，手将杯子缓缓放下，镜头在最后一刻收束到参考图的杯子位置、手部姿态和构图。不是从这张图片之后继续。
 
-## I2VA
+## Ref2VA
 
-```text
-integrated_multimodal_description: I2VA；@图片1 锁定[人物/服装/构图/场景]，仅生成[后续动作]；不改变[需保持项]。
-[Shot 1]
-action: [从首帧开始的连续动作]
-Camera: [对应镜头]
-dialogue: N/A
-overall_soundscape: [画内声或 N/A]
-non_diegetic_music: N/A
-```
-
-## FL2VA
-
-```text
-integrated_multimodal_description: FL2VA；@图片1 为首帧、@图片2 为尾帧；主体通过[连续动作]从[首帧状态]自然过渡到[尾帧状态]，不换人、不换景、不突跳。
-[Shot 1]
-action: [连续过渡过程]
-Camera: [平滑服务过渡的镜头]
-dialogue: N/A
-overall_soundscape: [画内声或 N/A]
-non_diegetic_music: N/A
-```
-
-## L2VA
-
-```text
-integrated_multimodal_description: L2VA；@视频1 仅作为前段结尾，继承[姿态/服装/光线/空间/声音]，从最后一帧继续[新动作]。
-[Shot 1]
-action: [自然续接的动作]
-Camera: [对应镜头]
-dialogue: N/A
-overall_soundscape: [延续的画内声]
-non_diegetic_music: N/A
-```
-
-## 运动参考
-
-```text
-integrated_multimodal_description: T2VA；@视频1 仅参考[动作节奏/镜头路径]，不参考人物、服装、场景、色彩、文字和风格；[本片主体与场景]。
-```
-
-## 有 BGM / 无 BGM / 有对白
-
-```text
-overall_soundscape: [脚步、风声、衣料摩擦等画内声]
-non_diegetic_music: [画外音乐的风格、节奏和进入点]
-dialogue: “用户提供的原文，保持原语言”
-```
-
-无 BGM 时固定为：`non_diegetic_music: N/A`；无对白时固定为：`dialogue: N/A`。
+需要官方完整参考格式时，读取官方 ref-en.txt：明确素材角色、保留/迁移关系、实际音画过程及声音。使用其六字段和引用标记；不拿 T2VA 三字段或 Seedance 的 @素材语法冒充该格式。用户本轮创意决定内容量，不机械凑字数。

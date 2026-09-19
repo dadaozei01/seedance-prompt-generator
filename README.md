@@ -4,35 +4,42 @@
   <img src="plugins/seedance-prompt-generator/assets/logo.png" alt="MediaPrompt Forge" width="320">
 </p>
 
-**多模态提示词工坊**是面向创作工作的 Codex 插件。它用六个互相隔离的 Skill，为不同图片、视频和原生音画模型生成真正不同的专属提示词，而不是把同一段文字替换模型名称。
+参考官方表达建议，自由创作图片、视频与原生音画提示词。内部插件 ID 保持 `seedance-prompt-generator`。
 
-现有 Seedance 用法、中文触发词、`@图片1` 素材绑定、时间轴和输出格式保持兼容。内部插件 ID 继续使用 `seedance-prompt-generator`，便于原安装直接升级。
+## 工作原则
 
-## 六个独立 Skill
+- 用户意图决定创意、结构、语言和详略；简单成品可以很短，复杂设计充分展开。
+- 官方建议作为工具，模板作为起点；不强制分栏、单变量修改、一图一职责或统一写实物理。
+- 默认直接给可复制成品，必要素材关系与约束写入正文。补充说明按需提供，检查通常内部完成。
+- 已核实的接口限制与可选表达建议分开；需要参数时核验当前型号和入口，不擅自换平台或升级模型。
+- 用户要求实际生成媒体时，这些技能辅助可用工具完成任务，不把生图或视频任务缩减成只写提示词。
 
-| 平台 | Skill | 适用任务 |
+## 六个独立技能
+
+| 平台 | Skill | 重点 |
 |---|---|---|
-| Seedance 2.0/2.5 | `generating-seedance-prompts` | 文生视频、图生视频、首尾帧、视频编辑、延长、30–180 秒长视频 |
-| Nano Banana / Gemini | `generating-nano-banana-prompts` | 生图、精准编辑、多参考图、人物与商品一致性、画内文字 |
-| ChatGPT Images 2.0 | `generating-chatgpt-image-prompts` | 生图、局部编辑、多参考图、透明素材、商品图、信息图 |
-| Grok Imagine Image 2.0 | `generating-grok-image-prompts` | 自然语言生图、最小差异编辑、连续编辑、多参考图 |
-| Grok Imagine Video 1.5 | `generating-grok-video-prompts` | 连续动作、图生视频、参考视频、重量与惯性、电影镜头 |
-| MiniMax H3 | `generating-minimax-h3-prompts` | T2VA、I2VA、FL2VA、L2VA、Shot、环境声与音乐 |
+| Seedance / 即梦（含 Seedance 2.5） | `generating-seedance-prompts` | 动作、镜头、素材关系与叙事；模式按入口核验 |
+| Nano Banana / Gemini | `generating-nano-banana-prompts` | 场景表达、图像编辑、多维度参考与风格融合 |
+| ChatGPT / OpenAI（含 ChatGPT Images 2.0） | `generating-chatgpt-image-prompts` | 创作与编辑、文字、构图、身份与产品保留 |
+| Grok Imagine Image 2.0 | `generating-grok-image-prompts` | 自然语言生成与多项编辑 |
+| Grok Imagine Video 1.5 | `generating-grok-video-prompts` | 按输入模式适配动作、镜头与节奏 |
+| MiniMax H3 | `generating-minimax-h3-prompts` | 音画关系、正确模式语义、可选官方重写格式 |
 
-每次只加载当前模型的 `SKILL.md`，详细规则、模板和示例按需从该 Skill 的 `references/` 读取。插件不设置总路由 Skill，减少无关上下文和额度消耗。
+平台由用户或已有上下文确定；通用“视频提示词”不再自动路由到 Seedance。只加载当前需要的技能和参考小节。
+
+## 官方资料
+
+各技能指南附来源、适用范围与核验日期（本版：2026-09-19）。
+
+- [OpenAI Image prompting](https://developers.openai.com/api/docs/guides/image-prompting)
+- [Google Nano Banana image generation](https://ai.google.dev/gemini-api/docs/image-generation)
+- [xAI 图片生成](https://docs.x.ai/developers/model-capabilities/images/generation)、[图片编辑](https://docs.x.ai/developers/model-capabilities/images/editing)、[视频生成](https://docs.x.ai/developers/model-capabilities/video/generation)
+- [字节 Seedance 2.5 官方示例](https://seed.bytedance.com/en/seedance2_5)
+- [MiniMax 官方 H3 提示词技能](https://github.com/MiniMax-AI/MiniMax-H3/blob/main/skills/h3-prompt-writing/SKILL.md)
+
+示例不等于接口规范；官方网页中的社区文章也不自动成为官方模型规范。无法核实的旧参数不作为承诺保留。
 
 ## 安装
-
-Windows PowerShell：
-
-```powershell
-git clone https://github.com/dadaozei01/seedance-prompt-generator.git
-Set-Location seedance-prompt-generator
-codex plugin marketplace add .
-codex plugin add seedance-prompt-generator@seedance-community
-```
-
-macOS / Linux：
 
 ```bash
 git clone https://github.com/dadaozei01/seedance-prompt-generator.git
@@ -41,58 +48,39 @@ codex plugin marketplace add .
 codex plugin add seedance-prompt-generator@seedance-community
 ```
 
-安装或更新后，请新建一个 Codex 任务以加载新版 Skill。
+本地开发版可在对应源目录安装；以上远端命令取得的是 GitHub 已发布内容。本地修改不会自动发布到 GitHub。安装或更新后，新建任务加载新版技能。
 
 ## 使用示例
 
 ```text
-生成一条 15 秒的 Seedance 2.5 香水广告视频提示词。
-为 Nano Banana 生成三张参考图合成的商品海报提示词。
-为 ChatGPT Images 2.0 生成只调整包装颜色的精准编辑提示词。
-为 Grok Imagine Image 2.0 生成带准确标题文字的游戏 Banner。
-为 Grok Imagine Video 1.5 生成巨人跳起砸地的连续重型动作。
-为 MiniMax H3 生成一条含环境声、无 BGM 的五秒单镜头技能视频。
+为 ChatGPT 写一张极简超现实海报的提示词。
+为 Nano Banana 同时参考图1的色彩与材质、图2的构图，重新设计场景。
+为 Grok Image 同时改衣服、背景和光线，保留人物身份。
+为 Seedance 设计8秒非线性梦境蒙太奇。
+为 Grok Video 写5秒固定镜头的微表情变化。
+为 MiniMax H3 按官方格式写10秒无对白、无配乐的雨中场景。
 ```
 
-也可以明确调用：
-
-```text
-使用 $generating-seedance-prompts 生成视频提示词。
-使用 $generating-nano-banana-prompts 生成 Gemini 图片提示词。
-使用 $generating-chatgpt-image-prompts 生成 ChatGPT Images 2.0 图片提示词。
-使用 $generating-grok-image-prompts 生成 Grok Image 提示词。
-使用 $generating-grok-video-prompts 生成 Grok Video 提示词。
-使用 $generating-minimax-h3-prompts 生成 MiniMax H3 原生音画提示词。
-```
-
-## 输出与额度控制
-
-图片 Skill 默认输出提示词成品、动态负面约束、参考图绑定、参数建议、风格锚点和一致性检查；视频 Skill 默认输出提示词成品、动态负面约束、素材绑定、参数建议和一致性检查。
-
-- 用户说“只给提示词”时，只输出最终成品。
-- 用户要求精简时，真正删除重复约束、同义表达和无关负面词。
-- `【下次可复用短句】` 默认不输出；只有用户说“保存成模板”“给我复用短句”“以后继续用这个风格”等明确复用需求时才追加。
-- 六个 Skill 的模型规则不会混用；同时指定两个平台时分别输出两份专属版本。
+也可使用 `$generating-seedance-prompts` 等技能名明确调用。支持“只给提示词”、自定格式、多个方案及 compact / standard / detailed 详略偏好；这些偏好不规定固定字数。
 
 ## 验证
-
-仓库提供无第三方依赖的验证器：
 
 ```bash
 node scripts/validate-plugin.mjs
 ```
 
-它检查 manifest、版本、UTF-8、六个 Skill、frontmatter、引用路径、触发词、模型专属输出契约、条件复用规则、品牌元数据和回归兼容项。验证完全在本地执行，不调用外部生成服务。
+验证插件清单、版本格式、六个技能、frontmatter、UTF-8、元数据及本地引用完整性；不再用固定栏目和指定措辞判断质量。行为测试另行检查需求遵循、平台事实、创意完整与冗余，不以正文长度作为能力指标。未生成实际媒体时，不宣称出图或成片效果已验证。
 
 ## 版本
 
-- `1.2.0`：品牌升级为 MediaPrompt Forge；新增 Grok Imagine Image 2.0、Grok Imagine Video 1.5 和 MiniMax H3；加入按需加载、动态约束与条件复用输出。
-- `1.1.0`：新增 Nano Banana 与 ChatGPT Images 2.0 独立 Skill；保留 Seedance 2.0/2.5 完整能力。
-- `1.0.1`：新增插件品牌图标并优化插件展示。
+- `1.3.0`：官方来源与适配判断分离，取消强制输出外壳，放开多项编辑与多维度参考；修正 H3 L2VA 语义及 Grok 参考生成模式。
+- `1.2.0`：升级为 MediaPrompt Forge，新增 Grok 图片、视频与 MiniMax H3。
+- `1.1.0`：新增 Nano Banana 与 ChatGPT Images 技能。
+- `1.0.1`：增加品牌图标。
 
 ## 隐私与费用
 
-插件只包含本地 Markdown、YAML、JSON 与图片资源，不连接外部服务器，不包含 MCP 服务，不收集数据。生成提示词时按正常 Codex 任务计入使用量。
+插件是本地说明、参考资料与图片资源，不包含外部服务、遥测或模型调用程序。宿主为核实资料可能浏览官方页面；实际生成媒体使用宿主工具和相应授权。提示词工作按正常宿主使用量计费。
 
 ## License
 

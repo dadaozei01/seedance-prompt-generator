@@ -1,6 +1,6 @@
 interface:
   display_name: "ChatGPT Images Prompts"
   short_description: "为 ChatGPT Images 2.0 编写稳定生图与修图提示词。"
-  default_prompt: "Use $generating-chatgpt-image-prompts to create a concise ChatGPT Images 2.0 prompt."
+  default_prompt: "Use $generating-chatgpt-image-prompts to create a ChatGPT image prompt suited to my creative goal."
 policy:
   allow_implicit_invocation: true

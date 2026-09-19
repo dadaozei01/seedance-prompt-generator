@@ -1,51 +1,27 @@
-# MiniMax H3 编写指南
+# MiniMax H3 表达与格式参考
 
-## 模式选择
+核验日期：2026-09-19。
 
-|模式|输入重点|提示词重点|
-|---|---|---|
-|T2VA|文字创意|完整建立人物、场景、动作和原生声音。|
-|I2VA|首帧图片|锁定图片中的人物、服装、物体、构图；只描述后续运动。|
-|FL2VA|首帧与尾帧|描述从首帧自然到达尾帧的连续过程，避免瞬移、换景和身份跳变。|
-|L2VA|最后一帧/片段|从已有结尾继续，继承姿态、光线、空间和声音。|
-|多模态参考|图片、视频、音频混合|逐项标明参考维度和排除维度。|
+## 官方来源
 
-## 固定结构
+- [MiniMax 官方 H3 技能](https://github.com/MiniMax-AI/MiniMax-H3/blob/main/skills/h3-prompt-writing/SKILL.md)
+- [基础模式格式](https://github.com/MiniMax-AI/MiniMax-H3/blob/main/skills/h3-prompt-writing/references/base-en.txt)
+- [Ref2VA 完整参考格式](https://github.com/MiniMax-AI/MiniMax-H3/blob/main/skills/h3-prompt-writing/references/ref-en.txt)
 
-```text
-integrated_multimodal_description: [模式、主体、场景、素材约束]
+官方技能是结构化重写工作流，并不证明所有产品入口都只能接受这一种写法。本插件采用其有依据的模式语义与可选格式；不继承统一字数目标或强制细节密度。
 
-[Shot 1]
-action: [画面与动作]
-Camera: [与该动作同步的景别、视角、运动]
-dialogue: [用户原语言原文；无则 N/A]
+## 模式语义（事实）
 
-[Shot 2 | 00:05-00:10]
-action: [下一动作]
-Camera: [对应镜头]
-dialogue: [用户原语言原文；无则 N/A]
+T2VA 从文字建立音画；I2VA 固定首帧；FL2VA 连接首尾帧；L2VA 收束到指定尾帧，绝非从尾帧向后续写。Ref2VA 可表达素材参考、源视频编辑或续写等关系。模式名称不等于当前账号的能力保证。
 
-overall_soundscape: [所有画内/环境/动作声；无则 N/A]
-non_diegetic_music: [画外 BGM；无则 N/A]
-```
+## 选用官方重写格式时
 
-Shot 1 不出现 `00:00`。Shot 2 及以后用递增、连续、无重叠的区间；按总时长减少切镜数量。每个 Shot 只承担一个主要动作或状态变化，`Camera` 必须解释如何服务该动作。
+基础格式使用 integrated_multimodal_description、overall_soundscape、non_diegetic_music；Ref2VA 用 subject_definitions、summary、retention_analysis、detailed_description 加两个声音字段。格式是提示词正文，不再包一层五栏报告。
 
-## 声音与对白
+正文按官方格式使用英文，原始对白、歌词、画中文字保留原语言。首镜头无切镜时间，后续镜头以递增切点标注；帧对齐时间与切镜时间不同。对白与画内音乐放主描述，环境与动作声放 soundscape，画外配乐单独写。本地模板覆盖无对白的基础 T2VA，可离线使用；完整帧对齐、跨镜对白及 Ref2VA 标记按上方对应官方指南核对。资料不可访问时说明仅核验了本地覆盖范围，不冒称完整格式已验证。
 
-- `overall_soundscape` 仅写画内声：风声、人声、脚步、衣料、机械、空间混响等。
-- `non_diegetic_music` 仅写画外音乐；没有 BGM 必须写 `N/A`，且不能在 soundscape 中出现音乐。
-- `dialogue` 必须逐字保留用户给出的语言与文本；未给对白写 `N/A`。不要自行翻译、润色或新增台词。
+## 本插件的适配判断
 
-## 运动参考与素材边界
+普通创意提示可以使用用户语言与自然段；用户明确要官方重写格式或下游依赖时才启用相应格式。复杂参考任务可按需要采用结构，字段不能限制想象与叙事。
 
-参考视频动作或运镜时写清：`@视频1 仅参考 [动作节奏/镜头路径]；不参考人物、服装、场景、色彩和文字。` 不得让动作参考覆盖角色身份或美术设定。图像、尾帧和音频也按同样方式声明使用与排除维度。
-
-## Prompt Lint
-
-1. 模式与素材是否一致，FL2VA 是否包含连续过渡？
-2. Shot 1 是否无时间码，Shot 2+ 是否递增且不重叠？
-3. 每个 Shot 是否同时有核心动作与对应 Camera？
-4. 对白是否保持用户原文和语言？
-5. soundscape 是否不含 BGM，空声音字段是否为 `N/A`？
-6. 参考素材是否明确“参考什么 / 不参考什么”？
+不要为了字段填充添加对白或音乐。用户要求创作台词时可创作，用户给定原文时保留原文。一次可以综合多个创意变化，一份素材可以提供多个参考维度。没有声音的任务可直接说明无声；选用格式时按对应字段规则表示空项。

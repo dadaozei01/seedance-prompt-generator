@@ -1,13 +1,11 @@
-# 完成示例
+# Grok Image 自编完成示例
 
-## 从零生成：夜间书店横幅
+示例展示不同信息量，不规定语言、篇幅或栏目。
 
-【提示词成品】
+## 微型图标
 
-创建 16:9 横幅：雨后的城市街角，一家深绿色外墙的小书店位于画面左侧，一位穿米色风衣的店员站在门口，右手举着红伞，伞沿遮住她头顶并与后方蓝紫色霓虹保持清晰层次。右侧保留干净的深蓝留白，用于版面。暖黄店内灯光从玻璃门向湿润人行道延伸，电影感中景、略低机位。门楣招牌准确显示“夜航书店”，文字清晰，不出现其他可读文字。
+一枚青绿色陶瓷贝壳图标，柔和釉面高光，轮廓清楚，纯米白背景；不加文字。
 
-## 最小差异编辑：更换围巾颜色
+## 复杂舞台概念
 
-【提示词成品】
-
-Only modify the woman's knitted scarf: change it from mustard yellow to deep forest green, preserving the same knit texture and drape. Do not change her face, hair, coat, pose, red umbrella, bookstore facade, neon, sign text “夜航书店”, composition, camera angle, lighting, shadows, or rain reflections. Keep everything else unchanged.
+设计一座漂浮在深海中的圆形剧院：观众席沿透明穹顶内壁盘旋，舞台由巨大的黑曜石唱片构成，暖金色机械臂悬在舞台上方。外部鲸群缓缓掠过穹顶，形成比剧院更大的尺度对比；视角从入口高处俯看，让入口、盘旋座席和中央舞台构成清晰阅读顺序。冷蓝海水与舞台暖光相互映照，玻璃折射只在边缘明显，中央演出区域保持可读。风格结合精密建筑模型与梦境插画，无画面文字。
